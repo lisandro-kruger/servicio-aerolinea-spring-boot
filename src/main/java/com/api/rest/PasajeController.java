@@ -87,7 +87,8 @@ public class PasajeController {
 		for (CotizacionDolar c : cotizaciones) {
 
 			if (c.getNombre().equals("Dolar Oficial")) {
-				pasaje.setImporte(Double.valueOf(c.getCompra()) * 500);
+				c.setCompra(c.getCompra().replace(',', '.'));
+				pasaje.setImporte((Double.parseDouble(c.getCompra())) * 500);
 			}
 
 		}
@@ -111,7 +112,7 @@ public class PasajeController {
 	}
 	
 	
-	private CostoDePasajeResponse pasajeResponse(Pasaje pasaje, Cliente cliente, Vuelo vuelo)
+	private PasajeResponse pasajeResponse(Pasaje pasaje, Cliente cliente, Vuelo vuelo)
 			throws Excepcion {
 
 		try {
@@ -143,7 +144,7 @@ public class PasajeController {
 			pasajeResponse.add(vueloLink);
 			pasajeResponse.add(dolarLink);
 
-			return null;
+			return pasajeResponse;
 		} catch (Exception e) {
 			throw new Excepcion(e.getMessage(), 500);
 		}

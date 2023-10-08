@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,7 +53,7 @@ public class CostoDePasajeController {
 
 	}
 
-	@GetMapping(value = "/pasaje", produces = { MediaType.APPLICATION_JSON_VALUE })
+	@PostMapping(value = "/pasaje", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> obtenerCostoPasaje(@Valid @RequestBody CostoDePasajeRequest costoDePasajeRequest,
 			BindingResult result) throws Exception {
 
@@ -77,7 +78,9 @@ public class CostoDePasajeController {
 		for (CotizacionDolar c : cotizaciones) {
 
 			if (c.getNombre().equals("Dolar Oficial")) {
-				newPresupuestosEntregados.setImporte(Double.valueOf(c.getCompra()) * 500);
+				
+				c.setCompra(c.getCompra().replace(',', '.'));
+				newPresupuestosEntregados.setImporte((Double.parseDouble(c.getCompra())) * 500);
 			}
 
 		}
@@ -119,7 +122,7 @@ public class CostoDePasajeController {
 			costoDePasajeResponse.add(vueloLink);
 			costoDePasajeResponse.add(dolarLink);
 
-			return null;
+			return costoDePasajeResponse;
 		} catch (Exception e) {
 			throw new Excepcion(e.getMessage(), 500);
 		}
