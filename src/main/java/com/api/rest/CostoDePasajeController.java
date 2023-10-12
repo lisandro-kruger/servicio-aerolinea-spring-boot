@@ -85,6 +85,9 @@ public class CostoDePasajeController {
 
 		}
 		
+		newPresupuestosEntregados.setVuelo(vueloRta.get());
+		newPresupuestosEntregados.setCliente(clienteRta.get());
+		
 		PresupuestosEntregados presupuestosEntregados = costoDePasajeService.guardarPresupuestosEntregados(newPresupuestosEntregados);
 
 		return new ResponseEntity<Object>(costoDePasajeResponse(presupuestosEntregados, clienteRta.get(), vueloRta.get()), HttpStatus.CREATED);

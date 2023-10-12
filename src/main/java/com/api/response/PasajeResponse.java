@@ -27,6 +27,7 @@ public class PasajeResponse extends RepresentationModel<PasajeResponse>{
 		super();
 		this.nro_pasaje = pasaje.getNro_pasaje();
 		this.nro_asiento = pasaje.getNro_asiento();
+		this.importe = pasaje.getImporte();
 		this.cliente = pasaje.getCliente();
 		this.vuelo = pasaje.getVuelo();
 	}

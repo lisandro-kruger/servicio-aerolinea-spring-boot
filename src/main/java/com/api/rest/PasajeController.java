@@ -23,7 +23,6 @@ import com.api.domain.Pasaje;
 import com.api.domain.Vuelo;
 import com.api.excepcion.Excepcion;
 import com.api.request.PasajeRequest;
-import com.api.response.CostoDePasajeResponse;
 import com.api.response.CotizacionDolar;
 import com.api.response.PasajeResponse;
 import com.api.rest.errors.ErrorHandler;
@@ -50,13 +49,12 @@ public class PasajeController {
 	@Autowired
 	private CostoDePasajeService costoDePasajeService;
 	
-	@GetMapping(value = "/{dni}", produces = { MediaType.APPLICATION_JSON_VALUE })
+	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<PasajeResponse> obtenerPasaje(@PathVariable Long id) throws Excepcion {
 		
 		Optional<Pasaje> pasajeRta = pasajeService.obtenerPasaje(id);
 		if (pasajeRta.isPresent()) {
-			Pasaje pasaje = pasajeRta.get();
-			return new ResponseEntity<PasajeResponse>(pasajeResponse(pasaje), HttpStatus.OK);
+			return new ResponseEntity<PasajeResponse>(pasajeResponse(pasajeRta.get()), HttpStatus.OK);
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		
@@ -93,6 +91,7 @@ public class PasajeController {
 
 		}
 		
+		pasaje.setNro_asiento(pasajeRequest.getNro_asiento());
 		pasaje.setCliente(clienteRta.get());
 		pasaje.setVuelo(vueloRta.get());
 		
